@@ -2,6 +2,9 @@
 #
 # USAGE: unlock-vm.sh UUID
 
+: ${POOL_EPHEMERAL:=production-ephemeral-vms}
+: ${POOL_VOLUME:=production-cinder-volumes}
+
 CEPH_ARGS="--keyring /etc/ceph/client.production-openstack.key --id production-openstack"
 export CEPH_ARGS
 
@@ -32,7 +35,7 @@ echo "server is stopped"
 ## Generate a list of RBD device names to unlock
 ##
 
-rbdnames=("production-ephemeral-vms/${vmuuid}_disk")
+rbdnames=("${POOL_EPHEMERAL}/${vmuuid}_disk")
 
 echo "inspecting server..."
 volume_ids=(
@@ -41,7 +44,7 @@ volume_ids=(
 echo "${volume_ids[@]}"
 
 for uuid in "${volume_ids[@]}"; do
-    rbdnames+=("production-cinder-volumes/volume-${uuid}")
+    rbdnames+=("${POOL_VOLUME}/volume-${uuid}")
 done
 
 ##
