@@ -35,8 +35,10 @@ echo "server is stopped"
 rbdnames=("production-ephemeral-vms/${vmuuid}_disk")
 
 echo "inspecting server..."
-volumes_ids=($(openstack server show $vmuuid -f value -c volumes_attached |
-    awk -F "'" '/^id=/ {print $2}'))
+volume_ids=(
+    $(openstack server show $vmuuid -f value -c volumes_attached | cut -f2 -d"'")
+)
+echo "${volume_ids[@]}"
 
 for uuid in "${volume_ids[@]}"; do
     rbdnames+=("production-cinder-volumes/volume-${uuid}")
