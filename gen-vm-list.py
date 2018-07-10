@@ -15,7 +15,6 @@ for vm in all_vms:
         console = nova.servers.get_console_output(vm['id'])
         if 'blk_update_request: I/O error' in console:
             has_problem=1
-            print('%s: VM %s with ID %s is AFFECTED' % (host, vm['name'], vm['id']))
         else:
             has_problem=0
 
