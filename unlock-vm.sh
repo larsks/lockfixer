@@ -39,7 +39,7 @@ volumes_ids=($(openstack server show $vmuuid -f value -c volumes_attached |
     awk -F "'" '/^id=/ {print $2}'))
 
 for uuid in "${volume_ids[@]}"; do
-    rbdnames+=("production-cinder-volumes/volume-${volumes[0]}")
+    rbdnames+=("production-cinder-volumes/volume-${uuid}")
 done
 
 ##
