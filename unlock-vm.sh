@@ -5,8 +5,10 @@
 : ${POOL_EPHEMERAL:=production-ephemeral-vms}
 : ${POOL_VOLUME:=production-cinder-volumes}
 
-CEPH_ARGS="--keyring /etc/ceph/client.production-openstack.key --id production-openstack"
-export CEPH_ARGS
+if [[ -z $CEPH_ARGS ]]; then
+	echo "WARNING: CEPH_ARGS is unset, this script will probably" >&2
+	echo "not work." >&2
+fi
 
 if [[ $1 = --off ]]; then
     POWERON=0
